@@ -46,7 +46,7 @@ public class FactoryManager : MonoBehaviour
         int side = Mathf.CeilToInt(Mathf.Sqrt(m_nbTanks));
 
 
-        m_entityManager = World.Active.EntityManager;
+        m_entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
         m_partArchetype = m_entityManager.CreateArchetype(typeof(LocalToWorld), typeof(RenderMesh), typeof(Translation), typeof(Rotation), typeof(PartTypeComponent));
 

@@ -7,17 +7,18 @@ using Unity.Jobs;
 using Unity.Collections;
 using Unity.Mathematics;
 
-public class RotationSystem : JobComponentSystem
+public partial class RotationSystem : SystemBase
 {
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var RotationJob = new RotationJob();
-        RotationJob.deltaTime = Time.deltaTime;
-        return RotationJob.Schedule(this, inputDeps);
+        RotationJob.deltaTime = Time.DeltaTime;
+
+        RotationJob.ScheduleParallel();
     }
 
-    // Free turning entities
-    struct TurningJob : IJobForEach<Rotation, TurretComponent>
+	// Free turning entities
+	struct TurningJob : IJobEntity
     {
         public float deltaTime;
         public void Execute(ref Rotation _rotation, ref TurretComponent _turret)
@@ -29,7 +30,7 @@ public class RotationSystem : JobComponentSystem
     }
 
     // Constrained Rotation
-    struct RotationJob : IJobForEach<Rotation, TurretComponent, SlotComponent>
+    partial struct RotationJob : IJobEntity
     {
         public float deltaTime;
         public void Execute(ref Rotation _rotation, ref TurretComponent _turret, ref SlotComponent _slot)

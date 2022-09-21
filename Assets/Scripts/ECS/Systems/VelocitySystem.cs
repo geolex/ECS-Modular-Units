@@ -7,9 +7,9 @@ using Unity.Jobs;
 using Unity.Collections;
 using Unity.Mathematics;
 
-public class VelocitySystem : JobComponentSystem
+public partial class VelocitySystem : SystemBase
 {
-    struct VelocityJob : IJobForEach<Translation, VelocityComponent>
+    partial struct VelocityJob : IJobEntity
     {
         public float deltaTime;
         public void Execute(ref Translation _translation, ref VelocityComponent _velocity)
@@ -17,11 +17,11 @@ public class VelocitySystem : JobComponentSystem
             _translation.Value += _velocity.m_value * deltaTime;
         }
     }
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var velocityJob = new VelocityJob();
-        velocityJob.deltaTime = Time.deltaTime;
-        return velocityJob.Schedule(this, inputDeps);
+        velocityJob.deltaTime = Time.DeltaTime;
+        velocityJob.Schedule();
 
     }
 }
