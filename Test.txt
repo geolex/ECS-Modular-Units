@@ -1,0 +1,13 @@
+<Part ID="1">
+  <Turret ID="4">
+    <NONE ID="-1" />
+    <Weapon ID="0" />
+  </Turret>
+  <Weapon ID="5" />
+  <Traction ID="3">
+    <NONE ID="-1" />
+  </Traction>
+  <Traction ID="3">
+    <NONE ID="-1" />
+  </Traction>
+</Part>
